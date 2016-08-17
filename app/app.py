@@ -6,29 +6,25 @@ This script could be run with commands
 from flask import Flask, redirect, abort, render_template
 from flask_script import Manager
 from flask_bootstrap import Bootstrap
-
-from DemoLib import Users
-
-
-
+from flask_moment import Moment
+from datetime import datetime
+from model import Users
+from model.users import load_user
 
 app = Flask(__name__)
 manager = Manager(app)
 bootstrap = Bootstrap(app)
+moment = Moment(app)
 
 #### Def Routes
 
 @app.route('/')
 def index():
-    return render_template('index_boot.html')
+    return render_template('index.html',current_time=datetime.utcnow())
 
 @app.route('/user/<name>')
-def user(name):
-    return render_template('user.html',title="User",name=name)
-
-@app.route('/userboot/<name>')
 def userboot(name):
-    return render_template('user_bootstrap.html',title="User",name=name)
+    return render_template('user.html',title="User",name=name)
 
 ### Jinja2 Templates test
 @app.route('/temptest')
@@ -57,11 +53,11 @@ def tempextend():
 
 @app.route('/test')
 def test():
-    return render_template('test_boot.html')
+    return render_template('test.html')
 
 @app.route('/about')
 def about():
-    return render_template('about_boot.html')
+    return render_template('about.html')
 
 @app.route('/bad')
 def bad():
@@ -70,7 +66,7 @@ def bad():
 #### Special Routes
 @app.errorhandler(404)
 def page_not_found(e):
-    return render_template('404_boot.html'), 404
+    return render_template('404.html'), 404
 
 @app.errorhandler(500)
 def internal_server_error(e):
