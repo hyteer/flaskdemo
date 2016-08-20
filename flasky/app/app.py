@@ -10,14 +10,7 @@ from flask import Flask, redirect,session, abort, render_template,url_for,flash
 from flask_script import Manager,Shell
 from flask_bootstrap import Bootstrap
 from flask_moment import Moment
-from flask_wtf import Form
-from wtforms import StringField,SubmitField
-from wtforms.validators import DataRequired
-from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate,MigrateCommand
-from flask_mail import Mail
-
-
+from flask_mail import Mail,Message
 
 from model import Users
 from model.users import load_user
@@ -44,8 +37,14 @@ app.config['MAIL_SERVER'] = 'smtp.qq.com'
 app.config['MAIL_PORT'] = 25
 #app.config['MAIL_USE_TLS'] = False
 app.config['MAIL_USERNAME'] = 'hyteer@qq.com'
-app.config['MAIL_PASSWORD'] = 'rvkxxmswbjeseabj'
+app.config['MAIL_PASSWORD'] = os.environ.get('MAIL_PASSWORD')
+
 mail = Mail(app)
+
+app.config['YT_MAIL_SUBJECT_PREFIX'] = '[Flasky]'
+app.config['YT_MAIL_SENDER'] = 'YT Flask <hyteer@qq.com>'
+app.config['YT_ADMIN'] = 'yotong@qq.com'
+#app.config['FLASKY_ADMIN'] = os.environ.get('FLASKY_ADMIN')
 
 
 ####### Shell commands ######
@@ -57,31 +56,6 @@ manager.add_command('db',MigrateCommand)
 
 
 
-######## Form Class #########
-class NameForm(Form):
-    name = StringField('What is your anme?',validators=[DataRequired()])
-    submit = SubmitField('Submit')
-
-########## Model ############
-class Role(db.Model):
-    __tablename__ = 'roles'
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64),unique=True)
-    users = db.relationship('User',backref='role',lazy='dynamic')
-
-    def __repr__(self):
-        return '<Role %r>' % self.name
-
-class User(db.Model):
-    __tablename__ = 'users'
-    id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(64),unique=True,index=True)
-    role_id = db.Column(db.Integer, db.ForeignKey('roles.id'))
-
-    def __repr__(self):
-        return '<User %r>' % self.username
-
-
 ########## Def Routes ########
 
 @app.route('/',methods=['GET','POST'])
@@ -89,14 +63,17 @@ def index():
     form = NameForm()
     if form.validate_on_submit():
         user = User.query.filter_by(username=form.name.data).first()
-        print "user:",user
         if user is None:
             user = User(username = form.name.data)
             db.session.add(user)
             session['known'] = False
+            print "new user <%s> visited." % user
+            if app.config['YT_ADMIN']:
+                send_email(app.config['YT_ADMIN'],'New User','mail/new_user',user=user)
         else:
             session['known'] = True
         session['name'] = form.name.data
+        print "user <%s> visited." % form.name.data
         form.name.data = ''
         return redirect(url_for('index'))
     return render_template('index_db.html',form=form,name=session.get('name'),
@@ -115,7 +92,8 @@ def temptest():
     test2 = "another variable"
 
     obj = load_user(2)
-    return render_template('temptest.html',mydict=dict1,mylist=list1,myobj=obj,myintvar=1,test=test,test2=test2,comments=list1)
+    return render_template('temptest.html',mydict=dict1,mylist=list1,myobj=obj,
+                           myintvar=1,test=test,test2=test2,comments=list1)
 
 @app.route('/temptest/<int:id>')
 def get_user(id):

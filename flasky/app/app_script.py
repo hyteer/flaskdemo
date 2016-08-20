@@ -6,8 +6,9 @@ This script could be run with commands
 from flask import Flask, redirect, abort, render_template
 from flask_script import Manager
 
-from DemoLib import Users
-from DemoLib.users import load_user
+from model import Users
+from model.users import load_user
+
 
 app = Flask(__name__)
 manager = Manager(app)

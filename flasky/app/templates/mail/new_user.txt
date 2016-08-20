@@ -1,0 +1,2 @@
+Dear admin,
+    a new user {{ user }} has been visted.
