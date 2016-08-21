@@ -30,3 +30,6 @@ def index():
         return redirect(url_for('.index'))
     return render_template('index.html',form=form,name=session.get('name'),
            known=session.get('known',False),current_time=datetime.utcnow())
+
+
+
