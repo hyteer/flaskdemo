@@ -1,8 +1,8 @@
 # ignore packages installed by npm
 node_modules
 uploads
-venv
-.idea
+**/venv/**
+**/.idea/**
 *test*
 *~
 *.*_bak
