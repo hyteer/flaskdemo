@@ -25,7 +25,9 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         print ">>>comes to submit..."
+
         user = User.query.filter_by(email=form.email.data).first()
+        #import pdb; pdb.set_trace()
         print "user:",user
         if user == None or user.password_hash == None:
             print ">>>bad user or password!^_^"
