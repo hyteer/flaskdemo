@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block title %}Flasky{% endblock %}
+
+{% block page_content %}
+
+<div class="hero-unit">
+    <h2>Testing Home</h2>
+    <div class="page-content">
+        <p>&nbsp; hi {% if current_user.is_authenticated %}{{ current_user.username }}{% else %}Stranger{% endif %}!</p>
+        <p>
+        <h3>Introduction</h3>
+
+An always available standard library with often needed keywords.
+BuiltIn is Robot Framework's standard library that provides a set of generic keywords needed often. It is imported automatically and thus always available. The provided keywords can be used, for example, for verifications (e.g. Should Be Equal, Should Contain), conversions (e.g. Convert To Integer) and for various other purposes (e.g. Log, Sleep, Run Keyword If, Set Global Variable).
+Table of contents
+HTML error messages
+Evaluating expressions
+Boolean arguments
+Multiline string comparisons
+Shortcuts
+Keywords
+        </p>
+        <br>
+        <p>
+        <a class="btn btn-primary btn-large">
+        Learn more
+        </a>
+        </p>
+
+    </div>
+
+
+
+</div>
+{% endblock %}
