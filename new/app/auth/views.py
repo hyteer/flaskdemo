@@ -11,14 +11,12 @@ def before_request():
     #import pdb; pdb.set_trace()    # for debuging
     if request.endpoint == None:
         return render_template('404.html')
-    if current_user.is_authenticated \
-            and not current_user.confirmed \
-            and  request.endpoint == 'user.secret':
+    if current_user.is_authenticated:
+        current_user.ping()
+        if not current_user.confirmed and  request.endpoint == 'user.secret':
             #and request.endpoint[:5] != 'auth.' \
             #and request.endpoint != 'static' \
-
-        return redirect(url_for('auth.unconfirmed'))
-
+            return redirect(url_for('auth.unconfirmed'))
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():

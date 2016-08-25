@@ -30,7 +30,7 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Test <b class="caret"></b></a>
                 <ul class="dropdown-menu">
                         <li><a href="{{ url_for('main.for_admins_only') }}">admin</a></li>
-                        <li><a href="#">Test2</a></li>
+                        <li><a href="{{ url_for('main.for_moderators_only') }}">ModTest</a></li>
                         <li><a href="#">Test3</a></li>
                 </ul>
                 </li>
@@ -46,7 +46,7 @@
                     <ul class="dropdown-menu">
                         <!--<li><a href=" url_for('auth.change_password') }}">Change Password</a></li>
                         <li><a href=" url_for('auth.change_email_request') }}">Change Email</a></li>-->
-                        <li><a href="{{ url_for('user.info') }}">MyInfo</a></li>
+                        <li><a href="{{ url_for('user.user_profile',username=current_user.username) }}">MyInfo</a></li>
                         <li><a href="#">Change Password</a></li>
                         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
                     </ul>

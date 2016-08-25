@@ -2,6 +2,7 @@ from flask import render_template
 from . import main
 from flask_login import login_required
 from ..decorators import admin_required, permission_required
+from ..models import Permission
 
 
 @main.route('/')
@@ -16,7 +17,7 @@ def for_admins_only():
 
 @main.route('/mod')
 @login_required
-@admin_required
+@permission_required(Permission.MODERATE_COMMENTS)
 def for_moderators_only():
     return "For comment moderators!"
 
