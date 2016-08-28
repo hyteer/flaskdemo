@@ -1,9 +1,10 @@
 from werkzeug.security import generate_password_hash, check_password_hash
 from flask_login import UserMixin, AnonymousUserMixin
 from . import db, login_manager
-from flask import current_app
+from flask import current_app, request
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from datetime import datetime
+import hashlib
 
 ################################# Role ########################################
 class Role(db.Model):
@@ -54,6 +55,7 @@ class User(UserMixin, db.Model):
     confirmed = db.Column(db.Boolean, default=False)
 
     name = db.Column(db.String(64))
+    sex = db.Column(db.Integer)     # 1.male 2.female 0. none
     location = db.Column(db.String(64))
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
@@ -100,6 +102,16 @@ class User(UserMixin, db.Model):
         db.session.add(self)
         return True
 
+    def get_avatar(self):
+        if self.sex == 1:
+            avatar = 'avatar/male.jpg'
+            return avatar
+        elif self.sex == 2:
+            avatar = 'avatar/female.jpg'
+            return avatar
+        else:
+            avatar = 'avatar/none.jpg'
+            return avatar
     #--------- Infomation Editing ----------
     def generate_reset_token(self, expiration=3600):
         s = Serializer(current_app.config['SECRET_KEY'], expiration)
@@ -144,6 +156,21 @@ class User(UserMixin, db.Model):
 
     def is_administrator(self):
         return self.can(Permission.ADMINISTER)
+
+    #-------- Avatar ---------
+    def gravatar(self, size=100, default='identicon', rating='g'):
+        if request.is_secure:
+            url = 'https://secure.gravatar.com/avatar'
+        else:
+            url = 'http://www.gravatar.com/avatar'
+        hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
+        return '{url}/{hash}?s={size}&d={default}&r={rating}'.format(url=url, hash=hash,
+                                             size=size, default=default, rating=rating)
+    #################### Test #################
+    def new_avatar_file(self):
+        hash = hashlib.md5(self.email.encode('utf-8')).hexdigest()
+
+        pass
 
     def __repr__(self):
         return '<User %r>' % self.username

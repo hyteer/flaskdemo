@@ -14,6 +14,10 @@ class Config:
     FLASKY_MAIL_SUBJECT_PREFIX = '[Flasky]'
     FLASKY_MAIL_SENDER = 'Flasky Admin <hyteer@qq.com>'
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'yotong@qq.com'
+    UPLOAD_PATH = os.path.join(basedir,'app/static/uploads/')
+    UPLOAD_FOLDER = './app/static/uploads/'
+    AVATAR_FOLDER = './app/static/avatar/'
+
 
     @staticmethod
     def init_app(app):

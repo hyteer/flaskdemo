@@ -1,6 +1,6 @@
 # ignore packages installed by npm
 node_modules
-uploads
+**/uploads/**
 **/venv/**
 **/.idea/**
 *test*
