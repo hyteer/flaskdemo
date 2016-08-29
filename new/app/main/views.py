@@ -4,7 +4,7 @@ from . import main
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
 from ..models import Permission,current_app
-from PIL import Image
+#from PIL import Image
 import os,hashlib
 from werkzeug.utils import secure_filename
 
