@@ -15,9 +15,6 @@ class Role(db.Model):
     permissions = db.Column(db.Integer)
     users = db.relationship('User', backref='role', lazy='dynamic')
 
-    def __repr__(self):
-        return '<Role %r>' % self.name
-
     @staticmethod
     def insert_roles():
         roles = {
@@ -35,6 +32,9 @@ class Role(db.Model):
             role.default = roles[r][1]
             db.session.add(role)
         db.session.commit()
+
+    def __repr__(self):
+        return '<Role %r>' % self.name
 
 
 class Permission:
@@ -60,6 +60,7 @@ class User(UserMixin, db.Model):
     about_me = db.Column(db.Text())
     member_since = db.Column(db.DateTime(), default=datetime.utcnow)
     last_seen = db.Column(db.DateTime(), default=datetime.utcnow)
+    posts = db.relationship('Post', backref='author', lazy='dynamic')
 
 
     def __init__(self, **kwargs):
@@ -174,6 +175,17 @@ class User(UserMixin, db.Model):
 
     def __repr__(self):
         return '<User %r>' % self.username
+
+################################### Post ########################################
+class Post(db.Model):
+    __tablename__ = 'posts'
+    id = db.Column(db.Integer, primary_key=True)
+    body = db.Column(db.Text)
+    timestamp = db.Column(db.DateTime, index=True,default=datetime.utcnow)
+    author_id = db.Column(db.Integer, db.ForeignKey('users.id'))
+
+
+
 
 ################################## Others #######################################
 class AnonymousUser(AnonymousUserMixin):

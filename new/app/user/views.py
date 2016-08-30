@@ -1,7 +1,7 @@
-from flask import render_template, request, flash, redirect, url_for
+from flask import render_template, request, flash, redirect, url_for, abort
 from flask_login import login_required, current_user
 from . import user
-from .. models import User, Role, db
+from .. models import User, Role, db, Post
 from forms import EditProfileForm, EditProfileAdminForm
 from .. decorators import admin_required
 
@@ -19,9 +19,12 @@ def secret():
     return render_template('user/sec/secret.html')
 
 @user.route('/<username>')
-def user_profile(username):
-    user = User.query.filter_by(username=username).first_or_404()
-    return render_template('user/user.html', user=user)
+def user_home(username):
+    user = User.query.filter_by(username=username).first()
+    if user is None:
+        abort(404)
+    posts = user.posts.order_by(Post.timestamp.desc()).all()
+    return render_template('user/user.html', user=user, posts=posts)
 
 @user.route('/edit-profile', methods=['GET','POST'])
 @login_required
@@ -64,7 +67,6 @@ def edit_profile_admin(id):
     form.location.data = user.location
     form.about_me.data = user.about_me
     return render_template('user/edit_profile.html', form=form, user=user)
-
 
 
 

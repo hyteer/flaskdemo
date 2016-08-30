@@ -3,18 +3,26 @@ from flask import render_template,request,flash,redirect,url_for
 from . import main
 from flask_login import login_required, current_user
 from ..decorators import admin_required, permission_required
-from ..models import Permission,current_app
+from ..models import Permission, current_app, Post, db
+from .forms import PostForm
 #from PIL import Image
 import os,hashlib
 from werkzeug.utils import secure_filename
 
 
 
-
-
-@main.route('/')
+@main.route('/', methods=['GET','POST'])
 def index():
-    return render_template('index.html')
+    form = PostForm()
+    #import pdb; pdb.set_trace()
+    if current_user.can(Permission.WRITE_ARTICLES) and form.validate_on_submit():
+        print "Comes here..."
+        #import pdb; pdb.set_trace()
+        post = Post(body=form.body.data, author=current_user._get_current_object())
+        db.session.add(post)
+        return redirect(url_for('.index'))
+    posts = Post.query.order_by(Post.timestamp.desc()).all()
+    return render_template('index.html', form=form, posts=posts)
 
 @main.route('/admin')
 @login_required
