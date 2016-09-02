@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% import "bootstrap/wtf.html" as wtf %}
-
+{% import "_macros.html" as macros %}
 {% block title %}Flasky{% endblock %}
 
 {% block page_content %}
@@ -14,18 +14,19 @@
             {% endif %}
         </p>
         <div>
-
         {% if current_user.can(Permission.WRITE_ARTICLES) %}
         {{ wtf.quick_form(form) }}
         {% endif %}
-
         </div>
         <p>
         <h3>Posts</h3>
+
         {% include '_posts.html' %}
-
-
-
+        {% if pagination %}
+        <div class="pagination">
+            {{ macros.pagination_widget(pagination, '.index') }}
+        </div>
+        {% endif %}
         </p>
         <br>
         <p>
@@ -33,10 +34,11 @@
         Learn more
         </a>
         </p>
-
     </div>
-
-
-
 </div>
+{% endblock %}
+
+{% block scripts %}
+{{ super() }}
+{{ pagedown.include_pagedown() }}
 {% endblock %}

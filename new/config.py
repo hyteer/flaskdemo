@@ -17,6 +17,7 @@ class Config:
     UPLOAD_PATH = os.path.join(basedir,'app/static/uploads/')
     UPLOAD_FOLDER = './app/static/uploads/'
     AVATAR_FOLDER = './app/static/avatar/'
+    FLASKY_POSTS_PER_PAGE = 20
 
 
     @staticmethod
