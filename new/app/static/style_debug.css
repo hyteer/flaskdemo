@@ -1,0 +1,27 @@
+.ytnavtop {
+    height:40px !important;
+    color:blue;
+}
+.navbar {
+    height:30px !important;
+    padding:0px;
+}
+
+ul.navbar-nav{
+    height:40px;
+}
+ul.navbar-nav li{
+    height:40px;
+}
+
+ul.navbar-nav li a, a.navbar-brand {
+    padding-top:10px;
+    padding-bottom:10px;
+}
+a.navbar-brand {
+    height:20px;
+}
+button.navbar-toggle{
+    margin:4px 15px 4px 0px;
+    padding: 8px 10px;
+}

@@ -16,8 +16,9 @@ class Config:
     FLASKY_ADMIN = os.environ.get('FLASKY_ADMIN') or 'yotong@qq.com'
     UPLOAD_PATH = os.path.join(basedir,'app/static/uploads/')
     UPLOAD_FOLDER = './app/static/uploads/'
-    AVATAR_FOLDER = './app/static/avatar/'
+    AVATAR_FOLDER = os.path.join(basedir,'app/static/avatar/')
     FLASKY_POSTS_PER_PAGE = 20
+    FLASKY_FOLLOWERS_PER_PAGE = 50
 
 
     @staticmethod

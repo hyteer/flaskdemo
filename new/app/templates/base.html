@@ -10,10 +10,10 @@
 {% endblock %}
 
 {% block navbar %}
-<!---<div class="navbar navbar-inverse" role="navigation">--->
-<!---<div class="navbar navbar-default navbar-fixed-top clearfix">--->
-    <div class="navbar navbar-default navbar-top clearfix">
-    <div class="container clearfix">
+<!-- Navbar ================================================== -->
+
+<div class="navbar navbar-default navbar-fixed-top">
+    <div class="container">
         <div class="navbar-header">
             <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                 <span class="sr-only">Toggle navigation</span>
@@ -44,7 +44,9 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_authenticated %}
                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account <b class="caret"></b></a>
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown">Account
+                        <img src="{{ url_for('static',filename=current_user.get_avatar()) }}" with="20" height="20">
+                        <b class="caret"></b></a>
                     <ul class="dropdown-menu">
                         <!--<li><a href=" url_for('auth.change_password') }}">Change Password</a></li>
                         <li><a href=" url_for('auth.change_email_request') }}">Change Email</a></li>-->

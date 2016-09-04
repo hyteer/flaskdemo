@@ -8,8 +8,11 @@ from ..models import Role, User
 class EditProfileForm(Form):
     name = StringField('Real name', validators=[Length(0,64)])
     location = StringField('Location', validators=[Length(0,64)])
+    #sex = SelectField('Sex', coerce=int)
     about_me = TextAreaField('About me')
     submit = SubmitField('Submit')
+
+
 
 
 class EditProfileAdminForm(Form):
@@ -20,16 +23,20 @@ class EditProfileAdminForm(Form):
     confirmed = BooleanField('Confirmed')
     role = SelectField('Role', coerce=int)
     name = StringField('Real name', validators=[Length(0,64)])
-
+    sex = SelectField('Sex', coerce=int)
     location = StringField('Location', validators=[Length(0,64)])
     about_me = TextAreaField('About me')
     submit = SubmitField('Submit')
+
+    sex_choices = [(0,'None'),(1,'Male'),(2,'Female')]
+
 
     def __init__(self,user,*args,**kwargs):
         super(EditProfileAdminForm, self).__init__(*args, **kwargs)
         self.role.choices = [(role.id, role.name)
                              for role in Role.query.order_by(Role.name).all()]
         self.user = user
+        self.sex.choices = self.sex_choices
 
     def validate_email(self, field):
         if field.data != self.user.email and \

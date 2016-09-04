@@ -1,3 +1,54 @@
+body {
+    position: relative;
+    padding-top: 40px;
+    padding-bottom: 30px;
+
+}
+
+/*
+body > .navbar,div.navbar-header, .navbar-fixed-top,.navbar-fixed-top div.container {
+  font-size: 14px;
+  min-height: 40px;
+  padding-bottom: 0px;
+  margin-bottom: 0px;
+
+}
+ul.navbar-nav li a, a.navbar-brand {
+    padding-top:10px;
+    padding-bottom:10px;
+}
+
+ul.navbar-nav li{
+    height:40px;
+}
+*/
+
+.navbar-nav>li>a {
+padding-top: 10px;
+padding-bottom: 10px;
+}
+.navbar-brand {
+height: 40px;
+padding-top: 10px;
+}
+.navbar {
+min-height: 40px;
+}
+
+
+.navbar-toggle {
+margin-top: 4px;
+margin-bottom: 4px;
+}
+
+
+
+.post-tabs {
+    margin-top:15px;
+}
+
+
+/****** Book default ******/
 .profile-thumbnail {
     position: absolute;
 }
@@ -42,7 +93,7 @@ div.pagination {
 }
 div.flask-pagedown-preview {
     margin: 10px 0px 10px 0px;
-    border: 1px solid #e0e0e0;
+    /*border: 1px solid #e0e0e0;*/
     padding: 4px;
 }
 div.flask-pagedown-preview h1 {
@@ -63,4 +114,8 @@ div.flask-pagedown-preview h3 {
 .post-body h3 {
     font-size: 120%;
 }
+.table.followers tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
 

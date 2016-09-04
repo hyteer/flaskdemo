@@ -32,11 +32,12 @@ def edit_profile():
     form = EditProfileForm()
     if form.validate_on_submit():
         current_user.name = form.name.data
+        #current_user.sex = form.sex.data
         current_user.location = form.location.data
         current_user.about_me = form.about_me.data
         db.session.add(current_user)
         flash('Your profile has been updated.')
-        return redirect(url_for('.user_profile', username=current_user.username))
+        return redirect(url_for('.user_home', username=current_user.username))
     form.name.data = current_user.name
     form.location.data = current_user.location
     form.about_me.data = current_user.about_me
@@ -54,15 +55,18 @@ def edit_profile_admin(id):
         user.confirmed = form.confirmed.data
         user.role = Role.query.get(form.role.data)
         user.name = form.name.data
+        user.sex = form.sex.data
         user.location = form.location.data
         user.about_me = form.about_me.data
+        #import pdb; pdb.set_trace()
         db.session.add(user)
         flash('The profile has been updated.')
-        return redirect(url_for('.user_profile', username=user.username))
+        return redirect(url_for('.user_home', username=user.username))
     form.email.data = user.email
     form.username.data = user.username
     form.confirmed.data = user.confirmed
     form.role.data = user.role_id
+    form.sex.data = user.sex
     form.name.data = user.name
     form.location.data = user.location
     form.about_me.data = user.about_me
