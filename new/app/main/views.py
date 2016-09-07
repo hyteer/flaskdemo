@@ -203,6 +203,34 @@ def about():
 
 
 ################################ Test #####################################
+from flask import jsonify
+
+def request_wants_json():
+    best = request.accept_mimetypes \
+        .best_match(['application/json', 'text/html'])
+    return best == 'application/json' and \
+        request.accept_mimetypes[best] > \
+        request.accept_mimetypes['text/html']
+
+
+@main.route('/testjson')
+def show_items():
+    res_json = jsonify({'code':0, 'msg': 'json test'})
+    res_html = '<h2>normal html response</h2>'
+    if request_wants_json():
+        return res_json
+    return res_html
+
+@main.route('/testjson2')
+def show_items2():
+    res_json = jsonify({'msg': 'not found'})
+    res_html = '<h2>normal html response</h2>'
+    if request_wants_json():
+        response = jsonify({'code': 0, 'msg': 'json test2'})
+        response.status_code = 200
+        return response
+    return res_html
+
 
 allowed_extensions = ['png', 'jpg', 'jpeg', 'gif', 'bmp']
 folder_upload = '/Users/myusername/Documents/Project_Upload/'

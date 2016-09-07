@@ -10,8 +10,7 @@ from ..email import send_email
 @auth.before_app_request
 def before_request():
     #import pdb; pdb.set_trace()    # for debuging
-    if request.endpoint == None:
-        return render_template('404.html')
+
     if current_user.is_authenticated:
         current_user.ping()
         if not current_user.confirmed and  request.endpoint == 'user.secret':
