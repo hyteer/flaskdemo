@@ -203,6 +203,51 @@ def about():
 
 
 ################################ Test #####################################
+from .. import FlaskApp
+mydb = FlaskApp.mydb
+#conn = mydb.conn
+#cur = mydb.cur
+
+
+@main.route('/test/chart/<name>')
+def test(name):
+    conn,cur = mydb.connDB()
+    users = []
+    sql = 'select * from users'
+    mydb.exeQuery(cur,sql)
+    for each in cur:
+        users.append({'name':each[1], 'email':each[2], 'age':each[4]})
+        print(each[0], each[1].decode('utf-8'))
+    #import pdb; pdb.set_trace()
+    #users = mysql.exeQuery(cur,'select * from users')
+    tpl = name + '.html'
+    mydb.connClose()
+
+    return render_template(tpl, testname=name, users=users)
+
+@main.route('/test/chart2/<name>')
+def testchart2(name):
+    conn,cur = mydb.connDB()
+    users = []
+    sql = 'select * from users'
+    #import pdb; pdb.set_trace()
+    if not cur:
+        conn,cur = mydb.connDB()
+        #conn,cur = mydb()
+    mydb.exeQuery(cur,sql)
+    for each in cur:
+        users.append({'name':each[1], 'email':each[2], 'age':each[4]})
+        print(each[0], each[1].decode('utf-8'))
+    #import pdb; pdb.set_trace()
+    #users = mysql.exeQuery(cur,'select * from users')
+    tpl = name + '.html'
+    mydb.connClose()
+
+    return render_template('chart2.html', testname=name, users=users)
+
+
+
+########### Temp
 from flask import jsonify
 
 def request_wants_json():

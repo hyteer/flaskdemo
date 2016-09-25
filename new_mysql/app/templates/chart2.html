@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+{% block title %}Chart Test{% endblock %}
+{% block page_content %}
+
+<div class="hero-unit">
+  <h2>ChatJS Test</h2>
+  <table class="table table-hover followers">
+    <thead><tr><th>User</th><th>Email</th><th>Age</th></tr></thead>
+    <tr>Users Total: {{ users.len }}</tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.name}}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.age }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<canvas id="myChart" width="600" height="400">Test</canvas>
+<script>
+var users_name = new Array();
+var users_age = new Array();
+
+{% for user in users %}
+  age = parseInt("{{ user.age }}");
+  name = "{{ user.name }}";
+  users_name.push(name);
+  users_age.push(age);
+  console.log("User: " + "{{ user.name }}");
+  console.log("Age: " ,age);
+{% endfor %}
+console.log("Users name: " + users_name.toString());
+console.log("Users age: " + users_age.toString());
+
+
+
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        //labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: users_name,
+        datasets: [{
+            label: '# of Votes',
+            //data: [12, 19, 3, 9, 2, 3],
+            data: users_age,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    	responsive: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+</script>
+</div>
+{% endblock %}

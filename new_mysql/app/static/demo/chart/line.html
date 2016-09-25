@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>ChatJS - Line Chat</title>
+	<script src="Chart.min.js"></script>
+    <style type="text/css">
+
+    </style>
+	
+</head>
+<body>
+
+<h2>ChatJS Test</h2>
+<div id="chart"><canvas id="myChart" width="600" height="400">Test</canvas></div>
+
+<script>
+var ctx = document.getElementById("myChart");
+
+var data = {
+    labels: ["January", "February", "March", "April", "May", "June", "July", "August"],
+    datasets: [
+        {
+            label: "My First dataset",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            data: [65, 59, 80, 81, 56, 55, 76,86],
+            spanGaps: false,
+        }
+    ]
+};
+
+
+var myLineChart = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+        responsive: false
+    }
+});
+</script>
+
+</body>
+</html>
+
+

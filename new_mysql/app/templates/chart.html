@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+{% block title %}Chart Test{% endblock %}
+{% block page_content %}
+
+<div class="hero-unit">
+  <h2>ChatJS Test</h2>
+  <table class="table table-hover followers">
+    <thead><tr><th>User</th><th>Email</th><th>Age</th></tr></thead>
+    <tr>Users Total: {{ users.len }}</tr>
+    {% for user in users %}
+    <tr>
+        <td>{{ user.name}}</td>
+        <td>{{ user.email }}</td>
+        <td>{{ user.age }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+
+<div class="row">
+    <div class="col-xs-6"><canvas id="myChart" width="500" height="400">Bar Chart</canvas></div>
+    <div class="col-xs-6"><canvas id="myChart2" width="500" height="400">Line Chart</canvas></div>
+</div>
+<script>
+var users_name = new Array();
+var users_age = new Array();
+
+{% for user in users %}
+  age = parseInt("{{ user.age }}");
+  name = "{{ user.name }}";
+  users_name.push(name);
+  users_age.push(age);
+  console.log("User: " + "{{ user.name }}");
+  console.log("Age: " ,age);
+{% endfor %}
+console.log("Users name: " + users_name.toString());
+console.log("Users age: " + users_age.toString());
+
+
+
+var ctx = document.getElementById("myChart");
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        //labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+        labels: users_name,
+        datasets: [{
+            label: '# of Votes',
+            //data: [12, 19, 3, 9, 2, 3],
+            data: users_age,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+                'rgba(54, 162, 235, 0.2)',
+                'rgba(255, 206, 86, 0.2)',
+                'rgba(75, 192, 192, 0.2)',
+                'rgba(153, 102, 255, 0.2)',
+                'rgba(255, 159, 64, 0.2)'
+            ],
+            borderColor: [
+                'rgba(255,99,132,1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(153, 102, 255, 1)',
+                'rgba(255, 159, 64, 1)'
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+    	responsive: false,
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero:true
+                }
+            }]
+        }
+    }
+});
+
+
+var ctx2 = document.getElementById("myChart2");
+var data2 = {
+    //labels: ["January", "February", "March", "April", "May", "June", "July", "August"],
+    labels: users_name,
+    datasets: [
+        {
+            label: "User Age - Line",
+            fill: false,
+            lineTension: 0.1,
+            backgroundColor: "rgba(75,192,192,0.4)",
+            borderColor: "rgba(75,192,192,1)",
+            borderCapStyle: 'butt',
+            borderDash: [],
+            borderDashOffset: 0.0,
+            borderJoinStyle: 'miter',
+            pointBorderColor: "rgba(75,192,192,1)",
+            pointBackgroundColor: "#fff",
+            pointBorderWidth: 1,
+            pointHoverRadius: 5,
+            pointHoverBackgroundColor: "rgba(75,192,192,1)",
+            pointHoverBorderColor: "rgba(220,220,220,1)",
+            pointHoverBorderWidth: 2,
+            pointRadius: 1,
+            pointHitRadius: 10,
+            //data: [65, 59, 80, 81, 56, 55, 76,86],
+            data:users_age,
+            spanGaps: false,
+        }
+    ]
+};
+
+
+var myLineChart = new Chart(ctx2, {
+    type: 'line',
+    data: data2,
+    options: {
+        responsive: false
+    }
+});
+
+</script>
+</div>
+{% endblock %}

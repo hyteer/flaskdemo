@@ -20,11 +20,20 @@ class Config:
     FLASKY_POSTS_PER_PAGE = 20
     FLASKY_FOLLOWERS_PER_PAGE = 50
     FLASKY_COMMENTS_PER_PAGE = 30
+    MYSQL_CONFIG = {
+    'host': '192.168.198.128',
+    'user': 'tester',
+    'passwd': '111',
+    'db': 'temptest'
+}
 
 
     @staticmethod
     def init_app(app):
         pass
+
+    def __del__(self):
+        self.connClose()
 
 
 class DevelopmentConfig(Config):
